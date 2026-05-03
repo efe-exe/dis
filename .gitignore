@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+*.egg
+.mypy_cache/
+.pytest_cache/
+.tox/
+pip-wheel-metadata/
+*.manifest
+*.spec
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+.env.local
+secrets.yml
+credentials.json
+
+# Database files
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Results / generated outputs (ignore if you don't want to commit results)
+results/
+
+# Other
+*.bak
+*.swp
