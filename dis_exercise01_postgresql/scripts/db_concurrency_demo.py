@@ -79,7 +79,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--host", default=os.environ.get("PGHOST", "localhost"))
     parser.add_argument("--port", type=int, default=int(os.environ.get("PGPORT", "5432")))
     parser.add_argument("--dbname", default=os.environ.get("PGDATABASE", "dis_test_db"))
-    parser.add_argument("--user", default=os.environ.get("PGUSER", "Bob"))
+    parser.add_argument("--user", default=os.environ.get("PGUSER", "bob"))
     parser.add_argument("--password", default=os.environ.get("PGPASSWORD", "bobbycar"))
     return parser.parse_args()
 
