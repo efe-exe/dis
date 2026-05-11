@@ -13,7 +13,7 @@ Dieses Verzeichnis enthält eine lauffähige Demonstration für Aufgabe 2b.
 Die PostgreSQL-Datenbank muss bereits existieren und erreichbar sein. Für die im Repo genannte Einrichtung können die Standardwerte aus der bisherigen README verwendet werden:
 
 - Datenbank: `dis_test_db`
-- Benutzer: `Bob`
+- Benutzer: `bob`
 - Passwort: `bobbycar`
 - Host: `localhost`
 - Port: `5432`
@@ -35,7 +35,7 @@ python scripts/db_concurrency_demo.py
 Optional mit expliziten Verbindungsdaten:
 
 ```bash
-python scripts/db_concurrency_demo.py --host localhost --port 5432 --dbname dis_test_db --user Bob --password bobbycar
+python scripts/db_concurrency_demo.py --host localhost --port 5432 --dbname dis_test_db --user bob --password bobbycar
 ```
 
 ## Was das Skript tut
