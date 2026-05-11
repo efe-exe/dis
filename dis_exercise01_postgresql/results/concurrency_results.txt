@@ -1,0 +1,73 @@
+Teil 2b — experimentelle Demonstration paralleler Transaktionen in PostgreSQL
+Verbindung: host=localhost port=5432 dbname=dis_test_db user=bob
+
+(i) Verbindung A geöffnet und offen gehalten.
+(ii) Tabelle anlegen und Initialtupel einfügen.
+    Initialtupel wurde committed.
+    Inhalt nach Schritt (ii):
+  (1, 'initial value', datetime.datetime(2026, 5, 11, 22, 19, 32, 380136, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+
+(iii) Zweite Verbindung B geöffnet.
+
+(iv) Neue Transaktionen in A und B starten.
+    Beide Transaktionen sind aktiv.
+
+(v) Verbindung A fügt einen neuen Datensatz ein.
+    Einfügen in A ausgeführt, noch nicht committed.
+(vi) Verbindung B fügt einen anderen neuen Datensatz ein.
+    Einfügen in B ausgeführt, noch nicht committed.
+
+(vii) Sichtbarkeit der Daten in A und B prüfen.
+    Sicht in Verbindung A:
+  (1, 'initial value', datetime.datetime(2026, 5, 11, 22, 19, 32, 380136, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+    Sicht in Verbindung B:
+  (1, 'initial value', datetime.datetime(2026, 5, 11, 22, 19, 32, 380136, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+    Erwartung: Jede Verbindung sieht ihre eigenen uncommitted Änderungen, aber nicht die der anderen.
+
+(viii) Beide Transaktionen committen.
+    Beide Commits erfolgreich.
+    Nach dem Commit in Verbindung A:
+  (1, 'initial value', datetime.datetime(2026, 5, 11, 22, 19, 32, 380136, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+    Nach dem Commit in Verbindung B:
+  (1, 'initial value', datetime.datetime(2026, 5, 11, 22, 19, 32, 380136, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+
+(ix) Dritte Verbindung C öffnen und Tabelleninhalt prüfen.
+    Sicht in Verbindung C:
+  (1, 'initial value', datetime.datetime(2026, 5, 11, 22, 19, 32, 380136, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+
+(x) Neue Transaktionen in A und B starten.
+    Beide Transaktionen sind wieder aktiv.
+
+(xi) Beide Verbindungen aktualisieren das Initialtupel mit unterschiedlichen Werten.
+    A: UPDATE ausgeführt, Row-Lock wird gehalten.
+    A: Commit erfolgreich.
+    B: UPDATE ausgeführt, nachdem A seinen Lock freigegeben hat.
+    B: Commit erfolgreich.
+    Beide Updates wurden erfolgreich verarbeitet.
+
+(xii) Nach den Updates den Tabelleninhalt erneut prüfen.
+    Nach dem zweiten Commit in Verbindung A:
+  (1, 'updated by B', datetime.datetime(2026, 5, 11, 22, 19, 32, 426981, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+    Nach dem zweiten Commit in Verbindung B:
+  (1, 'updated by B', datetime.datetime(2026, 5, 11, 22, 19, 32, 426981, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+    Der letzte erfolgreich abgeschlossene Update-Vorgang bestimmt den finalen Wert der Zeile.
+
+(xiii) Dritte Verbindung C prüft den endgültigen Tabelleninhalt.
+    Endgültige Sicht in Verbindung C:
+  (1, 'updated by B', datetime.datetime(2026, 5, 11, 22, 19, 32, 426981, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (2, 'value from connection A', datetime.datetime(2026, 5, 11, 22, 19, 32, 408453, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+  (3, 'value from connection B', datetime.datetime(2026, 5, 11, 22, 19, 32, 421265, tzinfo=datetime.timezone(datetime.timedelta(seconds=7200))))
+
+Fertig. Das Ergebnisprotokoll liegt in results/concurrency_results.txt

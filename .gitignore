@@ -63,7 +63,7 @@ build/
 *.egg-info/
 
 # Results / generated outputs (ignore if you don't want to commit results)
-results/
+#results/
 
 # Other
 *.bak
