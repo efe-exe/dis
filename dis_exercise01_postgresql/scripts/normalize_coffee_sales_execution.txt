@@ -1,0 +1,1 @@
+psql -U Bob -d dis_test_db -f scripts/normalize_coffee_sales.sql
