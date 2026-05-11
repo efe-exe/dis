@@ -1,2 +1,5 @@
+# PostgreSQL driver
+psycopg2-binary # sudo apt install python3-psycopg2 für systemweite Intallation unter Linux.
+
+# For CSV import (Exercise 2c)
 pandas
-python3-psycopg2
