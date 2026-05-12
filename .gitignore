@@ -65,6 +65,9 @@ build/
 # Results / generated outputs (ignore if you don't want to commit results)
 #results/
 
+# old (deleted) folders and files: attempts that did not come to fruition
+first_attempts/
+
 # Other
 *.bak
 *.swp

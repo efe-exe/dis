@@ -1,18 +1,50 @@
-Coffee Sales — DB Exercise
+# Aufgabe 2b — Concurrent Transactions in PostgreSQL
 
-Anleitung und Skripte zur Bearbeitung der DB-Übung (Teil b und c).
+Dieses Verzeichnis enthält eine lauffähige Demonstration für Aufgabe 2b.
 
-Voraussetzungen:
-- Python 3.9+
-- Abhängigkeiten installieren: `pip install -r requirements.txt`
+## Dateien
 
-Skripte:
-- `scripts/db_concurrency_demo.py` — führt Teil b (Concurrency-Demo) aus und schreibt Log in `results/concurrency_results.txt`.
-- `scripts/import_coffee.py` — lädt `Coffe_sales.csv` in eine SQLite-Datenbank `coffee_sales.db`, fügt Constraints hinzu und normalisiert Tabellen.
+- `scripts/db_concurrency_demo.py`
+- `requirements.txt`
+- `results/concurrency_results.txt` wird beim Lauf erzeugt
 
-Ausführung (PowerShell):
-```
+## Voraussetzung
+
+Die PostgreSQL-Datenbank muss bereits existieren und erreichbar sein. Für die im Repo genannte Einrichtung können die Standardwerte aus der bisherigen README verwendet werden:
+
+- Datenbank: `dis_test_db`
+- Benutzer: `bob`
+- Passwort: `bobbycar`
+- Host: `localhost`
+- Port: `5432`
+
+## Installation
+
+```bash
 pip install -r requirements.txt
-python .\scripts\db_concurrency_demo.py
-python .\scripts\import_coffee.py
 ```
+
+## Ausführung
+
+Im Verzeichnis `dis_exercise01_postgresql`:
+
+```bash
+python scripts/db_concurrency_demo.py
+```
+
+Optional mit expliziten Verbindungsdaten:
+
+```bash
+python scripts/db_concurrency_demo.py --host localhost --port 5432 --dbname dis_test_db --user bob --password bobbycar
+```
+
+## Was das Skript tut
+
+Das Skript folgt Aufgabe 2b strikt in der Reihenfolge i) bis xiii) und kommentiert die jeweiligen Abschnitte im Code. Es öffnet mehrere PostgreSQL-Verbindungen, zeigt die Sichtbarkeit uncommitteter Änderungen und demonstriert, wie PostgreSQL konkurrierende Updates auf dieselbe Zeile über Row-Locks behandelt.
+
+## Erwartetes Ergebnis
+
+- Vor dem Commit sieht jede Verbindung ihre eigenen uncommitteten Änderungen.
+- Nach dem Commit sind die Daten in allen Verbindungen sichtbar.
+- Beim zweiten Teil mit den `UPDATE`-Befehlen wartet die zweite Verbindung auf den Lock der ersten, danach setzen beide Transaktionen ihre Änderungen fort.
+- Der Protokollauszug landet zusätzlich in `results/concurrency_results.txt`.
