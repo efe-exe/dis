@@ -1,0 +1,95 @@
+Exercise Sheet 2 — NoSQL Databases
+===================================
+
+1. Verwendete Datenbanken
+- PostgreSQL: relationale Sales-Daten aus coffee_sales.csv
+- MongoDB: dokumentorientierte Rezeptdaten aus coffee_recipes.json
+
+2. Rezeptsuche: Americano with Milk
+{
+  "id": "americano_with_milk",
+  "name": "Americano with Milk",
+  "category": "Americano",
+  "time_minutes": 4,
+  "servings": 1,
+  "ingredients": [
+    {
+      "item": "Espresso",
+      "amount": 1,
+      "unit": "shot"
+    },
+    {
+      "item": "Hot water",
+      "amount": 150,
+      "unit": "ml"
+    },
+    {
+      "item": "Milk",
+      "amount": 60,
+      "unit": "ml"
+    }
+  ],
+  "equipment": [
+    "Espresso machine",
+    "Kettle"
+  ],
+  "steps": [
+    "Brew 1 espresso shot into a mug.",
+    "Add hot water to form the Americano base.",
+    "Add milk (steamed or hot) and stir gently."
+  ]
+}
+
+3. Kaffeespezialitäten aus der Sales-Tabelle
+- Americano
+- Americano with Milk
+- Cappuccino
+- Cocoa
+- Cortado
+- Espresso
+- Hot Chocolate
+- Latte
+
+4. Rezeptnamen vor Ergänzung
+- Americano
+- Americano with Milk
+- Cocoa
+- Cortado
+- Hot Chocolate
+- Latte
+
+5. Fehlende Rezepte vor Ergänzung
+- Cappuccino
+- Espresso
+
+6. Fehlende Rezepte nach Ergänzung
+- Keine. Für jede verkaufte Kaffeespezialität existiert nun ein Rezept.
+
+7. Verwendete Zubereitungszeiten
+- Americano: 3 Minuten
+- Americano with Milk: 4 Minuten
+- Cappuccino: 7 Minuten
+- Cocoa: 10 Minuten
+- Cortado: 6 Minuten
+- Espresso: 2 Minuten
+- Hot Chocolate: 12 Minuten
+- Latte: 8 Minuten
+
+8. Aggregierte Zubereitungszeit pro Tag
+Anzahl Verkäufe insgesamt: 3547
+Anzahl Tage: 381
+Gesamte Zubereitungszeit: 22068 Minuten
+
+Erste 10 Tage:
+- 2024-03-01: 81 Minuten
+- 2024-03-02: 21 Minuten
+- 2024-03-03: 65 Minuten
+- 2024-03-04: 22 Minuten
+- 2024-03-05: 88 Minuten
+- 2024-03-06: 23 Minuten
+- 2024-03-07: 27 Minuten
+- 2024-03-08: 42 Minuten
+- 2024-03-09: 78 Minuten
+- 2024-03-10: 16 Minuten
+
+Die vollständige Tagesaggregation liegt in: /Users/bastianqueckenstedt/dis/results/daily_preparation_time.csv
