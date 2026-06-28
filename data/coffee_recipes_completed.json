@@ -1,0 +1,143 @@
+{
+  "recipes": [
+    {
+      "id": "latte",
+      "name": "Latte",
+      "category": "Latte",
+      "time_minutes": 8,
+      "servings": 1,
+      "ingredients": [
+        { "item": "Espresso", "amount": 2, "unit": "shots" },
+        { "item": "Milk", "amount": 200, "unit": "ml" }
+      ],
+      "equipment": ["Espresso machine", "Milk pitcher", "Steam wand"],
+      "steps": [
+        "Brew 2 espresso shots into a large cup.",
+        "Steam milk to about 55–65°C (creamy microfoam).",
+        "Pour steamed milk over the espresso, holding back a little foam, then finish with the remaining microfoam."
+      ]
+    },
+    {
+      "id": "hot_chocolate",
+      "name": "Hot Chocolate",
+      "category": "Hot Chocolate",
+      "time_minutes": 12,
+      "servings": 1,
+      "ingredients": [
+        { "item": "Milk", "amount": 250, "unit": "ml" },
+        { "item": "Cocoa powder", "amount": 20, "unit": "g" },
+        { "item": "Sugar", "amount": 10, "unit": "g" },
+        { "item": "Salt", "amount": 1, "unit": "pinch" }
+      ],
+      "equipment": ["Small saucepan", "Whisk"],
+      "steps": [
+        "Whisk cocoa powder, sugar, and a small splash of milk until smooth.",
+        "Add the remaining milk and salt.",
+        "Heat on medium-low, whisking, until hot and slightly thickened (do not boil hard)."
+      ]
+    },
+    {
+      "id": "americano",
+      "name": "Americano",
+      "category": "Americano",
+      "time_minutes": 3,
+      "servings": 1,
+      "ingredients": [
+        { "item": "Espresso", "amount": 2, "unit": "shots" },
+        { "item": "Hot water", "amount": 200, "unit": "ml" }
+      ],
+      "equipment": ["Espresso machine", "Kettle"],
+      "steps": [
+        "Brew 2 espresso shots into a mug.",
+        "Add hot water to taste strength and stir gently."
+      ]
+    },
+    {
+      "id": "cocoa",
+      "name": "Cocoa",
+      "category": "Cocoa",
+      "time_minutes": 10,
+      "servings": 1,
+      "ingredients": [
+        { "item": "Milk or water", "amount": 250, "unit": "ml" },
+        { "item": "Cocoa powder", "amount": 18, "unit": "g" },
+        { "item": "Sugar", "amount": 8, "unit": "g" },
+        { "item": "Salt", "amount": 1, "unit": "pinch" }
+      ],
+      "equipment": ["Saucepan or microwave-safe mug", "Whisk"],
+      "steps": [
+        "Whisk cocoa powder, sugar, and a small splash of the liquid until smooth.",
+        "Warm the remaining liquid.",
+        "Whisk cocoa mixture into the warm liquid until fully dissolved and evenly colored."
+      ]
+    },
+    {
+      "id": "cortado",
+      "name": "Cortado",
+      "category": "Cortado",
+      "time_minutes": 6,
+      "servings": 1,
+      "ingredients": [
+        { "item": "Espresso", "amount": 1, "unit": "shot" },
+        { "item": "Milk", "amount": 60, "unit": "ml" }
+      ],
+      "equipment": ["Espresso machine", "Milk pitcher", "Steam wand"],
+      "steps": [
+        "Brew 1 espresso shot into a small cup.",
+        "Steam milk briefly so it is warm with minimal foam.",
+        "Pour milk into the espresso to achieve a roughly 1:1 ratio."
+      ]
+    },
+    {
+      "id": "americano_with_milk",
+      "name": "Americano with Milk",
+      "category": "Americano",
+      "time_minutes": 4,
+      "servings": 1,
+      "ingredients": [
+        { "item": "Espresso", "amount": 1, "unit": "shot" },
+        { "item": "Hot water", "amount": 150, "unit": "ml" },
+        { "item": "Milk", "amount": 60, "unit": "ml" }
+      ],
+      "equipment": ["Espresso machine", "Kettle"],
+      "steps": [
+        "Brew 1 espresso shot into a mug.",
+        "Add hot water to form the Americano base.",
+        "Add milk (steamed or hot) and stir gently."
+      ]
+    },
+    {
+      "id": "espresso",
+      "name": "Espresso",
+      "category": "Espresso",
+      "time_minutes": 2,
+      "servings": 1,
+      "ingredients": [
+        {"item": "Coffee beans", "amount": 18, "unit": "g"},
+        {"item": "Water", "amount": 30, "unit": "ml"}
+      ],
+      "equipment": ["Espresso machine"],
+      "steps": [
+        "Grind coffee beans.",
+        "Brew one espresso shot."
+      ]
+    },
+    {
+      "id": "cappuccino",
+      "name": "Cappuccino",
+      "category": "Cappuccino",
+      "time_minutes": 7,
+      "servings": 1,
+      "ingredients": [
+        {"item": "Espresso", "amount": 1, "unit": "shot"},
+        {"item": "Milk", "amount": 150, "unit": "ml"}
+      ],
+      "equipment": ["Espresso machine", "Milk pitcher", "Steam wand"],
+      "steps": [
+        "Brew one espresso shot.",
+        "Steam milk until foamy.",
+        "Pour milk foam over the espresso."
+      ]
+    }
+  ]
+}
