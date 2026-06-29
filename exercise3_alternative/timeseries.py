@@ -393,7 +393,40 @@ def main() -> None:
                         "--forecast_until",
                         default="2025-04-23", # 30 days window
                         help="""\"yyyy-mm-dd\"""")
+    parser.add_argument("-a",
+                        "--alpha",
+                        type=float,
+                        default=0.3,
+                        help="""Level smoothing factor in [0, 1] """
+                             """(Holt-Winters). Default: 0.3""")
+    parser.add_argument("-b",
+                        "--beta",
+                        type=float,
+                        default=0.05,
+                        help="""Trend smoothing factor in [0, 1] """
+                             """(Holt-Winters). Default: 0.05""")
+    parser.add_argument("-g",
+                        "--gamma",
+                        type=float,
+                        default=0.3,
+                        help="""Season smoothing factor in [0, 1] """
+                             """(Holt-Winters). Default: 0.3""")
+    parser.add_argument("-p",
+                        "--phi",
+                        type=float,
+                        default=0.98,
+                        help="""Trend damping factor in (0, 1]. """
+                             """1.0 = undamped. Default: 0.98""")
     args = parser.parse_args()
+
+    for name, value in (("alpha", args.alpha), ("beta", args.beta),
+                        ("gamma", args.gamma)):
+        if not 0.0 <= value <= 1.0:
+            raise SystemExit(
+                f"--{name} must be in [0, 1], got {value}.")
+    if not 0.0 < args.phi <= 1.0:
+        raise SystemExit(
+            f"--phi must be in (0, 1], got {args.phi}.")
     
     setup_raw_coffee_sales_table()
     base_ingredients = resolve_to_base_ingredients(MIX_INGREDIENTS)
@@ -416,7 +449,8 @@ def main() -> None:
     # forecast_from, so we cut the history there.
     history = [(d, a) for d, a in time_series if d < forecast_from]
     forecast_series = forecaster.forecast(
-        history, forecast_from, forecast_until)
+        history, forecast_from, forecast_until,
+        alpha=args.alpha, beta=args.beta, gamma=args.gamma, phi=args.phi)
 
     dates   = [d for d, _ in time_series]
     amounts = [a for _, a in time_series]
@@ -431,7 +465,10 @@ def main() -> None:
         plt.plot(f_dates, f_amounts, label="Forecast", color="red")
     plt.xlabel("Date")
     plt.ylabel(f"{args.ingredient} [{INGREDIENT_MAP[str(args.ingredient)][1]}]")
-    plt.title(f"Daily usage of {args.ingredient}")
+    plt.title(
+        f"Daily usage of {args.ingredient}  "
+        f"(Holt-Winters: \u03b1={args.alpha}, \u03b2={args.beta}, "
+        f"\u03b3={args.gamma}, \u03c6={args.phi})")
     plt.legend()
     plt.tight_layout()   # avoids cutting off labels
     plt.show()
