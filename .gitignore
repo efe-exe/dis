@@ -68,6 +68,9 @@ build/
 # old (deleted) folders and files: attempts that did not come to fruition
 first_attempts/
 
+# Don't upload while work in progress
+#exercise3/
+
 # Other
 *.bak
 *.swp
