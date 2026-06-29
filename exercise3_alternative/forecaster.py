@@ -1,23 +1,9 @@
-#!/usr/bin/python3
-
 """
 Forecasting algorithm for the daily ingredient usage time series.
 
 This module implements additive Triple Exponential Smoothing
-(Holt-Winters) with a damped trend. The call signature of `forecast`
-is unchanged from the previous mockup, so timeseries.py keeps working
-without modification.
+(Holt-Winters) with a damped trend.
 
-Why additive (not multiplicative) Holt-Winters?
------------------------------------------------
-The gap-filled café series contains genuine zero days (closed days are
-filled with 0). The multiplicative variant divides by the seasonal
-factors and becomes unstable near zero, whereas the additive variant
-does not. The additive seasonal effect ("Mondays are about +30 units")
-also matches a café's weekly rhythm well.
-
-Why a damped trend?
--------------------
 A plain linear Holt-Winters trend is extrapolated linearly and would
 explode (or collapse below zero) over long horizons such as the
 allowed multi-year forecast window. The damping parameter phi in (0, 1]
@@ -25,8 +11,6 @@ multiplies the trend each step so that it levels off to a plateau
 instead of diverging. phi = 1 recovers the classical (undamped)
 Holt-Winters model.
 
-Non-negativity
---------------
 Ingredient usage cannot be negative, so every produced value is clipped
 to be >= 0.
 
@@ -123,7 +107,7 @@ def forecast(
     history:
         The observed (gap-free) daily series as (date, amount) tuples.
         By contract, the caller passes only observations measured
-        *before* forecast_from, so this function never sees data from
+        before forecast_from, so this function never sees data from
         the forecast window itself.
     forecast_from, forecast_until:
         Inclusive bounds of the interval to forecast.
@@ -147,7 +131,7 @@ def forecast(
     values = [float(a) for _, a in history]
 
     # With fewer than one full season we cannot estimate seasonality;
-    # fall back to repeating the last observed value (graceful degradation).
+    # fall back to repeating the last observed value.
     if len(values) < m:
         last_value = max(0, round(values[-1]))
         predictions = []

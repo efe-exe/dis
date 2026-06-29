@@ -19,3 +19,9 @@ Forecasted ingredients
 ----------------------
 Switchable via -i / --ingredient:
   coffee beans, water, milk, cocoa powder, sugar, salt
+
+Arguments for defining the forecasting window
+---------------------------------------------
+  --forecast_from   date, when forecasting begins                 (default 2025-03-24)
+  --forecast_until  date, when forecasting series is discontinued (default 2025-04-23)
+Date format: yyyy-mm-dd
