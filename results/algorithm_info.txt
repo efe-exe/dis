@@ -1,0 +1,104 @@
+Holt-Winters Forecasting — Algorithm Details
+=============================================
+
+Algorithm: Holt-Winters (Triple Exponential Smoothing)
+
+Description:
+  Holt-Winters is a classical time-series forecasting algorithm that models
+  three components simultaneously:
+    1. Level (baseline value)
+    2. Trend (linear slope over time)
+    3. Seasonality (repeating pattern with period m)
+
+  The forecast for h steps ahead is computed as:
+    F(t+h) = Level(t) + Trend(t) * h + Seasonal(t+h)
+
+  where each component is updated at every time step using smoothing factors:
+    Level:    L(t) = alpha * Y(t) + (1 - alpha) * (L(t-1) + T(t-1))
+    Trend:    T(t) = beta  * (L(t) - L(t-1)) + (1 - beta) * T(t-1)
+    Seasonal: S(t) = gamma * (Y(t) - L(t-1)) + (1 - gamma) * S(t-m)
+
+  The final forecast combines all three:
+    F(t+h) = L(t) + T(t) * h + S(t + h - m)
+
+User-Adjustable Parameters:
+  --alpha   Level smoothing factor (default: 0.3)
+            Controls how much recent observations influence the baseline.
+            Higher alpha = more weight on recent data.
+
+  --beta    Trend smoothing factor (default: 0.01)
+            Controls trend adaptation speed.
+
+  --gamma   Seasonal smoothing factor (default: 0.1)
+            Controls seasonal pattern adaptation.
+
+  --m       Seasonal period in days (default: 7, weekly pattern)
+            Number of time steps in one seasonal cycle.
+
+  --horizon Days to forecast into the future (default: 30)
+
+  --train-fraction  Fraction of data used for training (default: 0.8)
+            Remaining data is used for evaluation (forecast vs actual).
+
+Switchable Ingredients:
+  milk, sugar, cocoa, espresso
+
+Forecasted Values (horizon=30, alpha=0.3):
+
+  MILK:
+    Date        Forecast (kg)
+    2025-03-24  528.1
+    2025-03-25  560.5
+    2025-03-26  792.5
+    2025-03-27  451.2
+    2025-03-28  553.0
+    2025-03-29  557.5
+    2025-03-30  544.3
+
+  SUGAR:
+    Date        Forecast (g)
+    2025-03-24  5.6
+    2025-03-25  6.0
+    2025-03-26  8.9
+    2025-03-27  3.7
+    2025-03-28  7.3
+    2025-03-29  9.3
+    2025-03-30  5.4
+
+  COCOA:
+    Date        Forecast (g)
+    2025-03-24  12.4
+    2025-03-25  13.1
+    2025-03-26  19.6
+    2025-03-27  8.1
+    2025-03-28  15.3
+    2025-03-29  20.6
+    2025-03-30  11.9
+
+  ESPRESSO:
+    Date        Forecast (shots)
+    2025-03-24  7.2
+    2025-03-25  7.0
+    2025-03-26  9.0
+    2025-03-27  7.1
+    2025-03-28  6.5
+    2025-03-29  7.6
+    2025-03-30  7.3
+
+Evaluation Metrics (on held-out 20% of data):
+
+  Ingredient    MAE        RMSE
+  milk          840.56     1063.13
+  sugar         18.53      24.58
+  cocoa         39.22      52.06
+  espresso      7.60       9.76
+
+Data Source:
+  Sales data: coffee_sales.csv (PostgreSQL with CSV fallback)
+  Recipes:    coffee_recipes.json (MongoDB with JSON fallback)
+  Date range: 2024-03-01 to 2025-03-23 (381 unique days)
+
+Usage:
+  python forecasting.py --ingredient milk --alpha 0.3 --horizon 30
+  python forecasting.py --ingredient sugar --alpha 0.5 --horizon 60
+  python forecasting.py --ingredient cocoa --alpha 0.2 --beta 0.05 --m 7
