@@ -301,6 +301,82 @@ def fill_gaps(rows: list[tuple[date, int]]) -> list[tuple[date, int]]:
     return series
     
 
+# cap on how far past the data --forecast_until may reach
+MAX_FORECAST_HORIZON_DAYS = 1000
+
+
+def parse_iso_date(text: str, arg_name: str) -> date:
+    """
+    Parses a 'yyyy-mm-dd' string into a datetime.date or exits with a
+    helpful message.
+    """
+    try:
+        return date.fromisoformat(text)
+    except ValueError:
+        raise SystemExit(
+            f"Argument {arg_name}: '{text}' is not a valid date. "
+            f"Expected format yyyy-mm-dd."
+        )
+
+
+def validate_forecast_window(
+    forecast_from: date,
+    forecast_until: date,
+    observed_series: list[tuple[date, int]],
+) -> None:
+    """
+    Checks the requested forecast window [forecast_from, forecast_until]
+    for logical consistency against the observed series and exits with a
+    descriptive message if any constraint is violated.
+
+    Constraints
+    -----------
+    1. The observed series must not be empty.
+    2. forecast_from <= forecast_until.
+    3. forecast_from must be strictly after the first observed date.
+    4. forecast_from may lie at most one day after the last observed date.
+    5. forecast_until may lie at most MAX_FORECAST_HORIZON_DAYS after the
+       last observed date.
+    """
+    if not observed_series:
+        raise SystemExit("No observed data available; cannot forecast.")
+
+    first_observed = observed_series[0][0]
+    last_observed = observed_series[-1][0]
+    latest_allowed_from = last_observed + timedelta(days=1)
+    latest_allowed_until = last_observed + timedelta(
+        days=MAX_FORECAST_HORIZON_DAYS)
+
+    errors = []
+    if not forecast_from <= forecast_until:
+        errors.append(
+            f"-ff ({forecast_from}) must not be after "
+            f"-fu ({forecast_until})."
+        )
+    if not forecast_from > first_observed:
+        errors.append(
+            f"-ff ({forecast_from}) must be after the first observed date "
+            f"({first_observed})."
+        )
+    if forecast_from > latest_allowed_from:
+        errors.append(
+            f"-ff ({forecast_from}) may lie at most one day after the last "
+            f"observed date ({last_observed}), i.e. not after "
+            f"{latest_allowed_from}."
+        )
+    if forecast_until > latest_allowed_until:
+        errors.append(
+            f"-fu ({forecast_until}) may lie at most "
+            f"{MAX_FORECAST_HORIZON_DAYS} days after the last observed date "
+            f"({last_observed}), i.e. not after {latest_allowed_until}."
+        )
+
+    if errors:
+        raise SystemExit(
+            "Invalid forecast window:\n  - " + "\n  - ".join(errors)
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Time series forecasting with coffee sales data")
@@ -311,11 +387,11 @@ def main() -> None:
                                 milk, cocoa powder, sugar or salt""")
     parser.add_argument("-ff",
                         "--forecast_from",
-                        default="0001-01-01",
+                        default="2025-03-24",
                         help="""\"yyyy-mm-dd\"""")
     parser.add_argument("-fu",
                         "--forecast_until",
-                        default="0001-01-01",
+                        default="2025-04-23", # 30 days window
                         help="""\"yyyy-mm-dd\"""")
     args = parser.parse_args()
     
@@ -329,18 +405,35 @@ def main() -> None:
     time_series = fill_gaps(time_series)
     #print(len(time_series)) #test
     #print(time_series[0:10]) #test
+
+    # Forecasting
+    forecast_series: list[tuple[date, int]] = []
+    forecast_from = parse_iso_date(args.forecast_from, "-ff")
+    forecast_until = parse_iso_date(args.forecast_until, "-fu")
+    validate_forecast_window(forecast_from, forecast_until, time_series)
+
+    # The forecast must only use observations measured strictly before
+    # forecast_from, so we cut the history there.
+    history = [(d, a) for d, a in time_series if d < forecast_from]
+    forecast_series = forecaster.forecast(
+        history, forecast_from, forecast_until)
+
     dates   = [d for d, _ in time_series]
     amounts = [a for _, a in time_series]
-
+    
     plt.style.use("seaborn-v0_8-whitegrid")
     plt.figure(figsize=(12, 5))
     plt.plot(dates, amounts, label="Observed", color="tab:blue")
     #plt.scatter(dates, amounts, label="Observed", color="tab:blue")
+    if forecast_series:
+        f_dates = [d for d, _ in forecast_series]
+        f_amounts = [a for _, a in forecast_series]
+        plt.plot(f_dates, f_amounts, label="Forecast", color="red")
     plt.xlabel("Date")
     plt.ylabel(f"{args.ingredient} [{INGREDIENT_MAP[str(args.ingredient)][1]}]")
     plt.title(f"Daily usage of {args.ingredient}")
     plt.legend()
-    plt.tight_layout()   # verhindert abgeschnittene Labels
+    plt.tight_layout()   # avoids cutting off labels
     plt.show()
 
 
