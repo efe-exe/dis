@@ -1,0 +1,21 @@
+Forecasting algorithm
+---------------------
+Additive Triple Exponential Smoothing (Holt-Winters) with a damped trend.
+Seasonal length: 7 days (weekly rhythm). Seasonal effect is additive.
+The trend is damped so it levels off instead of exploding over long
+horizons, and all forecast values are clipped to be non-negative.
+Model parameters are estimated naively (mean/slope of the first season),
+as permitted by the exercise sheet.
+
+User-adjustable parameters
+--------------------------
+  -a / --alpha   level smoothing factor, range [0, 1]   (default 0.3)
+  -b / --beta    trend smoothing factor, range [0, 1]   (default 0.05)
+  -g / --gamma   season smoothing factor, range [0, 1]  (default 0.3)
+  -p / --phi     trend damping factor, range (0, 1]     (default 0.98)
+                 (phi = 1.0 disables damping)
+
+Forecasted ingredients
+----------------------
+Switchable via -i / --ingredient:
+  coffee beans, water, milk, cocoa powder, sugar, salt
