@@ -101,8 +101,8 @@ renders the plot using \texttt{matplotlib}.
 
 \subsection{Forecasting Approach}
 We employ additive triple exponential smoothing (the Holt--Winters
-method)~\cite{holt2004,winters1960} with a seasonality period of $m=7$ days, reflecting
-the pronounced weekly pattern in the data, extended by a damped trend~\cite{gardner1985}.
+method)~\cite{holt2004,winters1960,hyndman2021fpp3} with a seasonality period of $m=7$ days, reflecting
+the pronounced weekly pattern in the data, extended by a damped trend~\cite{gardner1985,hyndman2021fpp3}.
 Given smoothing factors $\alpha,\beta,\gamma \in [0,1]$ and a damping factor
 $\phi \in (0,1]$, the level $\ell_t$, trend $b_t$, and seasonal component $s_t$ are
 updated for each observation $x_t$ as follows:
@@ -187,6 +187,9 @@ Portions of the source code were developed with the assistance of Anthropic's la
 language model, Claude, and subsequently reviewed by the authors.
 
 \begin{thebibliography}{9}
+\bibitem{hyndman2021fpp3} R.~J. Hyndman and G.~Athanasopoulos,
+\emph{Forecasting: Principles and Practice}, 3rd~ed. Melbourne, Australia: OTexts, 2021,
+ch.~8.3. [Online]. Available: \url{https://otexts.com/fpp3/holt-winters.html}
 \bibitem{holt2004} C.~C. Holt, ``Forecasting seasonals and trends by exponentially
 weighted moving averages,'' \emph{International Journal of Forecasting}, vol.~20,
 no.~1, pp. 5--10, 2004, reprint of ONR Research Memorandum 52, Carnegie Institute
