@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1783273657.50117 "c:/Users/EfeNa/Desktop/dis/demopaper/main.tex" "main.pdf" "main" 1783273658.50678 0
+["pdflatex"] 1783362892.52586 "c:/Users/EfeNa/Desktop/dis/demopaper/main.tex" "main.pdf" "main" 1783362893.54454 0
   "IEEEtran.cls" 1783260745 288304 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "c:/Users/EfeNa/Desktop/dis/demopaper/main.tex" 1783273656 11399 0d07f791432e12cb981e9a318e6abf39 ""
+  "c:/Users/EfeNa/Desktop/dis/demopaper/main.tex" 1783362890 11503 fa9e3106e3bc5c038a69563049cf7ad5 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1756323591 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1756323909 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1756323378 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -23,14 +23,10 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm" 1756322697 908 2921f8a10601f252058503cc6570e581 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm" 1756322697 940 75ac932a52f80982a9f8ea75d03a34cf ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1756322697 940 228d6584342e91276bf566bcf9716b83 ""
-  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1756323235 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
-  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1756323235 1528 abec98dbc43e172678c11b3b9031252a ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm" 1756323235 1512 f21f83efb36853c0b70002322c1ab3ad ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm" 1756323235 1520 eccf95517727cb11801f4f1aee3a21b4 ""
-  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1756323235 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr6.tfm" 1756323235 1300 b62933e007d01cfd073f79b963c01526 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr8.tfm" 1756323235 1292 21c1c5bfeaebccffdb478fd231a0997d ""
-  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1756323235 1124 6c73e740cf17375f03eec0ee63599741 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1756323235 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1756323235 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1756322697 30251 6afa5cb1d0204815a708a080681d4674 ""
@@ -89,8 +85,8 @@
   "images/dis_architecture.png" 1783260745 172441 92e49a43d20c39af2afa87977febe03c ""
   "images/forecast_evaluation_coffee_beans_2025-01-22_2025-03-23_a03_b005_g03_p098.png" 1783260745 133795 500dfe3c246f26c71e0b4c04be545974 ""
   "images/forecast_future_coffee_beans_2025-03-24_2025-05-23_a03_b005_g03_p098.png" 1783260745 130310 09ce1af89e9a9e20a48dd429dcca5111 ""
-  "main.aux" 1783273658 2276 e3482097abfc7b89db8086284c6e9792 "pdflatex"
-  "main.tex" 1783273656 11399 0d07f791432e12cb981e9a318e6abf39 ""
+  "main.aux" 1783362893 2337 34340fabeafb8bf993c0e4e5460c4e8d "pdflatex"
+  "main.tex" 1783362890 11503 fa9e3106e3bc5c038a69563049cf7ad5 ""
   (generated)
   "main.aux"
   "main.log"

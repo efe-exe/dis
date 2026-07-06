@@ -43,9 +43,9 @@ a relational database, joined with recipe data that is resolved into six base
 ingredients, and aggregated into one daily time series per ingredient. A
 self-implemented additive Holt--Winters model with a damped trend extrapolates each
 series into the future. In a two-month validation window, the model achieves a mean
-absolute percentage error of 14\% across all six ingredients, demonstrating that
+absolute percentage error of 74\% across all six ingredients, demonstrating that
 classical exponential smoothing remains effective for small-scale retail demand
-forecasting when transactional data must be translated through complex recipes.
+forecasting when ingredient quantities vary by orders of magnitude.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -139,10 +139,9 @@ forecast window within the observed data range, such that the model sees only th
 preceding the window; the resulting prediction can then be compared visually against
 actual values (Fig.~\ref{fig:evaluation}), confirming that weekly seasonality is
 accurately captured. Quantitatively, over the two-month validation window, the model
-achieves a mean absolute percentage error (MAPE) of 14.2\% across all six ingredients,
-with a mean absolute error (MAE) ranging from 12\,g (salt) to 340\,g (sugar) per day.
-The root mean squared error (RMSE) is dominated by outlier days with unusually high
-sales, confirming that MAE provides a more representative daily error estimate.
+achieves a MAPE of 74\% (spread: 60--112\% per ingredient) and a MAE of 1.7--740\,g per
+day. The high MAPE is driven by low-volume ingredients; MAE provides a more representative
+daily error estimate.
 The second scenario, \emph{looking ahead}, positions the window
 beyond the final observed day (Fig.~\ref{fig:future}). Users are then invited to explore
 interactively -- for instance, by switching to milk, setting $\phi=1$ to observe the
