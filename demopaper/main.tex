@@ -8,29 +8,30 @@
 \graphicspath{{./images/}} % Specify the path to your images
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{url}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
 \title{Forecasting a Caf\'e's Daily Ingredient Demand with Damped Triple Exponential Smoothing}
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+\author{\IEEEauthorblockN{Bastian Queckenstedt}
 \IEEEauthorblockA{\textit{Department of Informatics} \\
 \textit{Universit\"at Hamburg}\\
 Hamburg, Germany \\
-email address or ORCID}
+bastian.queckenstedt@studium.uni-hamburg.de}
 \and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+\IEEEauthorblockN{Tobias Christopher Kr\"oncke}
 \IEEEauthorblockA{\textit{Department of Informatics} \\
 \textit{Universit\"at Hamburg}\\
 Hamburg, Germany \\
-email address or ORCID}
+\url{https://orcid.org/0009-0004-4367-4395}}
 \and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
+\IEEEauthorblockN{Efe Enes Nayci}
 \IEEEauthorblockA{\textit{Department of Informatics} \\
 \textit{Universit\"at Hamburg}\\
 Hamburg, Germany \\
-email address or ORCID}
+\url{https://orcid.org/0009-0000-9966-9115}}
 }
 
 \maketitle
@@ -55,10 +56,8 @@ forecasting, time series, triple exponential smoothing, Holt--Winters, damped tr
 A caf\'e records \emph{what it sells} -- lattes, cappuccinos, cocoa -- but it has to
 purchase \emph{what it consumes}: coffee beans, milk, water, cocoa powder, sugar, and
 salt. Purchasing therefore requires two steps the raw sales log does not provide:
-translating drinks into ingredient quantities, and anticipating future demand. Both
-matter economically: perishables such as milk spoil when overstocked, while an empty
-bean hopper halts the business. This pattern -- transactional records on one level,
-planning needs on another -- appears in virtually every retail scenario, making
+translating drinks into ingredient quantities, and anticipating future demand. The pattern "transactional records on one level,
+planning needs on another" appears in virtually every retail scenario, making
 ingredient-level forecasting a broadly useful building block.
 
 Our demo solves this end to end for a one-year sales log of a caf\'e
@@ -69,6 +68,16 @@ course \emph{Databases and Information Systems}, Universit\"at Hamburg, summer t
 daily ingredient-usage series, and forecast by an additive Holt--Winters model with a
 damped trend that we implemented from scratch. A command line tool exposes every model
 parameter, so visitors can explore -- and break -- the forecast interactively.
+
+\section{Related Work}
+Demand forecasting in food service has long relied on classical time-series methods
+before the recent surge of deep-learning approaches. The Holt--Winters triple
+exponential smoothing method~\cite{holt2004,winters1960} remains the standard baseline
+for data with both trend and seasonality, and its damped variant~\cite{gardner1985}
+addresses the common failure mode of linear trend extrapolation over long horizons.
+Subsequent work~\cite{hyndman2008} formalized these methods within a state-space
+framework and established error metrics such as MAE and RMSE as universal evaluation
+criteria.
 
 \section{Architecture Overview}
 Figure~\ref{fig:architecture} shows the pipeline. The raw sales file
@@ -101,8 +110,8 @@ and renders the plot with matplotlib.
 
 \subsection{Forecasting Approach}
 We use additive triple exponential smoothing (the Holt--Winters
-method)~\cite{holt2004,winters1960} with a season length of $m=7$ days, since the
-data shows a clear weekly rhythm, extended by a damped trend~\cite{gardner1985}.
+method)~\cite{holt2004,winters1960,hyndman2021fpp3} with a season length of $m=7$ days, since the
+data shows a clear weekly rhythm, extended by a damped trend~\cite{gardner1985,hyndman2021fpp3}.
 With smoothing factors $\alpha,\beta,\gamma \in [0,1]$ and damping factor
 $\phi \in (0,1]$, level $\ell_t$, trend $b_t$, and season $s_t$ are updated for every
 observation $x_t$ as
@@ -178,6 +187,9 @@ Parts of the source code were developed with the assistance of Anthropic's large
 language model Claude and reviewed by the authors.
 
 \begin{thebibliography}{00}
+\bibitem{hyndman2021fpp3} R.~J. Hyndman and G.~Athanasopoulos,
+\emph{Forecasting: Principles and Practice}, 3rd~ed. Melbourne, Australia: OTexts, 2021,
+ch.~8.3. [Online]. Available: \url{https://otexts.com/fpp3/holt-winters.html}
 \bibitem{holt2004} C.~C. Holt, ``Forecasting seasonals and trends by exponentially
 weighted moving averages,'' \emph{International Journal of Forecasting}, vol.~20,
 no.~1, pp. 5--10, 2004, reprint of ONR Research Memorandum 52, Carnegie Institute
@@ -186,6 +198,10 @@ of Technology, 1957.
 moving averages,'' \emph{Management Science}, vol.~6, no.~3, pp. 324--342, 1960.
 \bibitem{gardner1985} E.~S. Gardner, Jr. and E.~McKenzie, ``Forecasting trends in
 time series,'' \emph{Management Science}, vol.~31, no.~10, pp. 1237--1246, 1985.
+\bibitem{hyndman2008}
+R.~J. Hyndman, A.~B. Koehler, J.~K. Ord, and R.~D. Snyder,
+\emph{Forecasting with Exponential Smoothing: The State Space Approach}.
+Berlin, Germany: Springer, 2008.
 \end{thebibliography}
 
 \end{document}
