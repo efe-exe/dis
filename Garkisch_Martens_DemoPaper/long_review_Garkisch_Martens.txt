@@ -1,0 +1,130 @@
+PEER REVIEW — "Forecasting Café Ingredient Usage from Heterogeneous Databases with
+Hand-Built Exponential Smoothing"
+(Garkisch / Martens)
+
+=====================================================================
+(1) SUMMARY (including rating)
+=====================================================================
+
+The authors demonstrate a forecasting tool that predicts daily usage of
+individual café ingredients (milk, sugar, coffee grounds) by joining
+transactional sales facts stored in PostgreSQL with drink recipes
+stored in MongoDB, and forecasting the resulting per-ingredient time
+series with self-implemented exponential smoothing. Two model variants
+are provided: Single Exponential Smoothing (SES) as a baseline and
+additive Holt-Winters (TES) with weekly seasonality as the default. A
+command line interface lets users switch ingredients, choose the model,
+and retune the smoothing parameters. Evaluation is taken seriously: a
+28-day hold-out backtest reports RMSE, MAE, and MAPE, summarized across
+three ingredients in Table I, with the honest takeaway that no single
+model always wins (SES marginally beats Holt-Winters on the flat, noisy
+coffee-grounds series).
+
+This is a convincing demo paper. The problem is well motivated and
+placed in a broader forecasting context, the method is presented with
+its update equations and a sound justification for the additive variant
+(zero-demand days make the multiplicative form undefined), the setup
+section is exemplary (hardware, OS, database versions, Docker Compose),
+and the empirical comparison of two self-built models with proper error
+metrics clearly exceeds the exercise requirements. The main weaknesses
+are formal rather than substantive: the reference list is partly in a
+draft-like state (two entries lack authors, year, and bibliographic
+details), some design decisions on the recipe-to-ingredient mapping are
+not explained, and the text contains a number of language and
+consistency slips that a careful editing pass would remove.
+
+Rating: 4 - Accept
+
+=====================================================================
+(2) STRONG POINTS (at least two)
+=====================================================================
+
+1. Strong, honest empirical evaluation. The paper backs its pitch with
+   a 28-day hold-out backtest and reports RMSE, MAE, and MAPE for three
+   ingredients (Table I). It openly shows a case where the simpler
+   baseline wins (coffee grounds) and explains why MAPE looks inflated
+   on low-volume series with near-zero-demand days. This level of
+   evaluation transparency is exactly what one hopes for and clearly
+   goes beyond the minimum requirement of a visual comparison.
+
+2. Two self-implemented models enabling a real comparison. Providing
+   SES as a baseline next to Holt-Winters turns the demo from "one
+   algorithm produces a curve" into a small model-selection experiment
+   the visitor can perform live (--model ses), which makes the demo
+   both more interactive and more instructive.
+
+3. Methodological care. The update equations are given, the additive
+   seasonal form is justified by a property of the actual data
+   (zero-demand days), the weekly season length is grounded in a
+   visible pattern, and the attribution of the method to Holt and
+   Winters is historically correct. The concrete detail that the
+   database is preloaded with 388 days of sales also matches the
+   underlying dataset exactly, which signals careful work.
+
+4. Exemplary setup section. CPU, core count, main memory, OS version,
+   PostgreSQL 18 and MongoDB 8, provisioning via Docker Compose, the
+   exact Python libraries, and an indication of runtime ("forecasts
+   complete in seconds") — this is precisely the reproducibility
+   information the template asks for, and the Docker Compose setup
+   makes the demo easy to redeploy.
+
+5. Good contextualization. The introduction connects the café example
+   to demand forecasting at large with a suitable survey reference
+   (Petropoulos et al.), and the two-database design is framed as
+   polyglot persistence with the appropriate literature reference
+   (Sadalage & Fowler) rather than presented as an unexplained
+   artifact of the exercise sheets.
+
+=====================================================================
+(3) WEAK POINTS (at least two)
+=====================================================================
+
+1. The reference list is partly in a draft state. Entries [1] and [2]
+   are incomplete: [1] gives only a title ("Forecasting: Principles and
+   Practice (3rd ed)") with no authors (Hyndman & Athanasopoulos),
+   publisher, year, or URL, and [2] omits the author entirely although
+   the running text explicitly attributes the seasonal extension to
+   "Winters [2]" — the reader cannot even confirm from the bibliography
+   that [2] is Winters (1960). In contrast, [3] and [4] are fully
+   detailed, making the inconsistency conspicuous. Conversely, [4]
+   reproduces the complete list of roughly eighty authors verbatim,
+   filling an entire column; the customary "et al." after the first
+   author(s) would serve readers better. All cited works do exist, so
+   this is purely a matter of citation hygiene — but it is the first
+   thing a conference reviewer would notice.
+
+2. The recipe-to-ingredient mapping is under-specified. The paper
+   states usage(d) is computed from sales counts times per-drink
+   ingredient amounts, but does not explain how compound recipe entries
+   are handled: in the recipe data, most coffee drinks reference
+   "Espresso" in shots rather than listing coffee grounds directly, and
+   one recipe offers a choice ("milk or water"). Whether shot entries
+   are expanded into base ingredients is not stated, and the strikingly
+   small coffee-grounds errors in Table I (RMSE around 5 g/day, versus
+   hundreds of ml/day for milk) raise the question of whether the
+   coffee-grounds series covers all espresso-based drinks or only the
+   few recipes listing grounds directly. Since one of the paper's
+   headline findings (SES beats Holt-Winters on coffee grounds) rests
+   on this series, the mapping deserves an explicit sentence.
+
+3. Language and consistency issues. Several grammar slips ("Projecting
+   it into the future, is a small ...", "can be choosen", "an
+   evaluation plot is being generated") and an inconsistent CLI
+   description: the text first refers to an --alpha/--beta/--gamma
+   parameter style, but the usage example then selects the ingredient
+   with "--milk" as its own flag, which is neither explained nor
+   consistent with the rest. None of this hurts comprehension badly,
+   but the density of slips is noticeable in a two-page paper.
+
+4. Only the future forecast is shown as a figure. The evaluation plot
+   (hold-out overlay with error metrics) is described as a key feature
+   and would visually substantiate Table I, but it is not included.
+   Given that figures may span both columns, showing the backtest
+   would have been feasible and more persuasive than describing it.
+
+5. Minor: the implemented Holt-Winters variant uses an undamped linear
+   trend, and the demo projects 30 days ahead. A brief remark on how
+   the forecast behaves over longer horizons (or why damping was not
+   needed) would preempt an obvious question. Likewise, the imputation
+   of days without sales is only hinted at in the architecture figure
+   caption ("imputes") and never specified in the text.

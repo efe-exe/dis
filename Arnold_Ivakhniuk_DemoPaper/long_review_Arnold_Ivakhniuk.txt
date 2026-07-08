@@ -1,0 +1,121 @@
+PEER REVIEW — "Forecasting Coffee Shop Ingredient Demand from Sales and Recipe Data"
+(Ivakhniuk / Arnold)
+
+=====================================================================
+(1) SUMMARY (including rating)
+=====================================================================
+
+The authors present a demo that forecasts daily ingredient demand for a
+coffee shop by combining two data sources: per-sale coffee transactions
+stored in SQLite and drink recipes stored in MongoDB. A Python script
+joins each sale with its recipe, aggregates the required ingredient
+amounts per day, fills missing days with zero, and forecasts the
+resulting series with self-implemented additive Holt-Winters (triple
+exponential) smoothing using a weekly season. The demo focuses on milk
+and sugar and exposes the smoothing parameters, season length, forecast
+horizon, and the size of the held-out evaluation window through a
+command line interface. Evaluation is done by holding back the most
+recent days and computing the mean absolute error between predicted and
+actual usage.
+
+The paper is well structured, easy to follow, and faithful to the
+provided template. The motivation (sales are recorded per product, but
+purchasing happens per ingredient) is argued clearly, the chosen method
+is appropriate for daily data with a weekly rhythm, and the described
+system covers the full pipeline from raw data to plots. The main
+shortcoming is that the evaluation, although clearly part of the
+system's design, is not substantiated in the paper: the MAE is computed
+by the tool but no value is reported, and the evaluation plot is
+explicitly omitted. As a result, the reader has to take the quality of
+the forecasts on trust. Together with some missing setup details
+(hardware, MongoDB version) this keeps an otherwise convincing demo
+paper slightly below the level its content would allow.
+
+Rating: 3 - Weak accept
+
+The demo itself appears complete and well thought out; the paper would
+reach a clear "accept" with modest revisions (report the evaluation
+numbers, complete the setup section).
+
+=====================================================================
+(2) STRONG POINTS (at least two)
+=====================================================================
+
+1. Clear motivation and readable presentation. The introduction
+   explains precisely why product-level sales records are insufficient
+   for purchasing decisions and why ingredient-level forecasting is the
+   right abstraction. The paper follows the template structure closely,
+   the language is plain and unambiguous, and a reader unfamiliar with
+   the project understands the entire pipeline after one pass.
+
+2. Built-in quantitative evaluation concept. The tool does not rely on
+   visual comparison alone: it holds back the most recent days
+   (configurable via --test-days) and computes the mean absolute error
+   between predictions and actual usage. Designing the evaluation as a
+   first-class, user-controllable feature of the CLI goes beyond the
+   minimum requirement of a visual backtest.
+
+3. Rich, well-documented user interface. Beyond the required adjustable
+   smoothing parameters (--alpha, --beta, --gamma), the CLI exposes the
+   season length, the forecast horizon, the evaluation window, and a
+   --no-setup flag to skip re-importing the databases. This gives demo
+   visitors many meaningful knobs to explore and shows attention to the
+   practical demo situation (fast re-runs).
+
+4. Justified storage choices and documented data-cleaning decisions.
+   The split into SQLite (tabular sales) and MongoDB (document-shaped
+   recipes) is motivated by the shape of the data rather than presented
+   as arbitrary. Normalization decisions ("Milk foam" and "Milk or
+   water" are counted as milk) are stated explicitly, which is exactly
+   the kind of design transparency a reviewer wants to see.
+
+5. Honest interpretation of the results. The paper explicitly frames
+   the forecast as "an operational estimate rather than an exact
+   prediction" given the volatile sales data — a refreshingly sober
+   claim for a demo paper.
+
+=====================================================================
+(3) WEAK POINTS (at least two)
+=====================================================================
+
+1. Evaluation results are claimed but never shown. The system computes
+   an MAE on held-out data and generates an evaluation plot, yet the
+   paper reports neither the number nor the figure ("not included here
+   to keep the paper focused"). For a pitch whose credibility rests on
+   the forecasts being useful, at least one concrete error value (or
+   the evaluation figure) should appear; omitting both leaves the
+   central claim unsupported.
+
+2. Incomplete setup section. The template explicitly asks for basic
+   system information "even if you think this is not important". The
+   paper gives the OS, Python and SQLite versions, but no CPU, no main
+   memory, and no MongoDB version. It also does not state how long a
+   forecast run takes, which is relevant for a live demo.
+
+3. Handling of nested recipe entries is not addressed. In the recipe
+   dataset, many drinks reference "Espresso" in shots rather than
+   listing base ingredients directly. For milk and sugar this does not
+   matter, but the paper claims the "same workflow can be applied to
+   any ingredient contained in the recipe database" — for ingredients
+   that occur inside the espresso sub-recipe (coffee/water), this claim
+   only holds if shot entries are expanded, which the paper does not
+   describe. A sentence clarifying this would make the generalization
+   claim sound.
+
+4. Parameter defaults are not motivated. The default alpha = 0.05 is
+   unusually low (the level adapts very slowly), and no rationale or
+   sensitivity discussion is given for the chosen defaults. Since the
+   demo's selling point is interactive parameter exploration, a brief
+   justification of the starting configuration would strengthen the
+   narrative.
+
+5. Minor: aggregation happens per sale in the Python script. Summing
+   ingredient amounts per day is a textbook GROUP BY and could be
+   pushed into the database layer; the current design re-implements the
+   aggregation in application code. This is a defensible choice, but
+   the paper does not discuss it, although "where the aggregation and
+   forecasting are executed" was an explicit design aspect of the
+   exercise. Additionally, the reference list is minimal (two entries);
+   citing the 2004 International Journal of Forecasting reprint of
+   Holt's 1957 memorandum would make the primary source accessible to
+   readers.
