@@ -10,10 +10,7 @@ aggregated into a daily per-ingredient series, and forecast with
 self-implemented additive Holt-Winters smoothing (weekly season).
 A CLI exposes smoothing parameters, season length, horizon, and the
 evaluation window; evaluation uses MAE on held-back days. The paper is
-clear, well structured, and covers the full pipeline. Main weakness:
-the evaluation is described but not substantiated — neither the MAE
-value nor the evaluation plot is shown — and the setup section is
-incomplete (no CPU/RAM, no MongoDB version).
+clear, well structured, and covers the full pipeline.
 
 Rating: 3 - Weak accept
 
@@ -23,20 +20,24 @@ Rating: 3 - Weak accept
 - Clear motivation and very readable presentation; the whole pipeline
   is understandable in one pass.
 - Quantitative evaluation built into the tool (held-out days via
-  --test-days, MAE) — goes beyond a purely visual backtest.
+  --test-days, MAE). Goes beyond a purely visual backtest.
 - Rich CLI (ingredient, alpha/beta/gamma, season length, horizon,
   test window, --no-setup) with documented data-cleaning decisions
-  ("Milk foam" / "Milk or water" counted as milk); storage choices
-  justified by data shape (tabular vs. documents).
+  ("Milk foam" / "Milk or water" counted as milk).
+- Storage choices justified by data shape (tabular vs. documents).
 
 --------------------------------------------------
 (3) WEAK POINTS
 --------------------------------------------------
-- Evaluation results claimed but never shown: no MAE number, and the
-  evaluation plot is deliberately omitted — the central claim remains
-  unsupported in the paper.
-- Setup section incomplete despite explicit template instructions:
-  no CPU, no main memory, no MongoDB version, no runtime indication.
+- Evaluation results claimed but never shown: no MAE value, and the
+  evaluation plot is deliberately omitted.
+- Missing unit in milk usage plot (Fig. 2).
 - Handling of nested recipe entries (espresso shots) is not addressed,
   so the claim that the workflow applies to "any ingredient" is not
   supported for ingredients hidden inside the espresso sub-recipe.
+- Aggregation apparently happens explicitly in the python code, although
+  it could have been done declaratively with SQL.
+- Setup section incomplete despite template instructions:
+  no CPU, no main memory, no MongoDB version, no runtime indication.
+- Exercise Sheets are mentioned in the text as a matter of course,
+  thereby disturbing the immersion into our "conference simulation".
