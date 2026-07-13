@@ -55,9 +55,10 @@
 {\color{uhhred}\rule{\textwidth}{3.5mm}}
 \vspace{12mm}
 
-\postertitle{Demo: Forecasting a Caf\'e's Daily Ingredient Demand}
+\postertitle{Demo: Forecasting a Caf\'e's Daily Ingredient Demand With
+Damped Triple Exponential Smoothing}
 \vspace{6mm}
-\postersubtitle{A Lightweight Forecasting Pipeline With Damped Triple Exponential Smoothing}
+%\postersubtitle{A Lightweight Forecasting Pipeline With Damped Triple Exponential Smoothing}
 %\postersubtitle{Forecasting a caf\'e's daily ingredient demand with
 %damped triple exponential smoothing}
 \vspace{8mm}
@@ -81,13 +82,14 @@ Department of Informatics, Universit\"at Hamburg\par}
       in the past.
 \item It must purchase the right amounts of what it will consume in the future:
 
-\textbf{coffee beans, milk, water, cocoa, sugar, salt.}
+\textbf{Coffee beans, milk, water, cocoa powder, sugar, salt.}
 \end{itemize}
 \end{uhhbox}
 
 \begin{uhhbox}
 \boxheader{What the demo does}
 \begin{itemize}
+\item Lightweight Forecasting Pipeline
 \item One year of real sales (3\,547 cups, Mar 2024 -- Mar 2025) is
       loaded \textbf{unchanged} into PostgreSQL.
 \item Recipes are resolved into \textbf{six base ingredients}
@@ -132,20 +134,22 @@ s_t    &= \gamma (x_t - \ell_t) + (1-\gamma)\,s_{t-m}
 
 \begin{uhhbox}
 \boxheader{Try it yourself!}
-Switch the ingredient, move the window, break the model:
+Switch the ingredient, move the window, explore undamped limit:
 \vspace{4mm}
 
-{\ttfamily
-\$ timeseries.py -i milk\\
-\$ timeseries.py -i "coffee beans" -a 0.3 -g 0.3\\
-\$ timeseries.py -p 1.0 \quad\rmfamily\itshape (undamped trend!)\\
-\ttfamily\$ timeseries.py -a 1.0 \quad\rmfamily\itshape (chasing noise!)}
+{\smallsize\ttfamily
+\$ ./timeseries.py -i "coffee beans" -a 0.3 -b 0.05 -g 0.3 -p 0.98\\
+\$ ./timeseries.py -i salt\\
+\$ ./timeseries.py -i milk -fu "2026-07-14"\\
+\$ ./timeseries.py -i milk -fu "2026-07-14" -p 1.0 \quad{\rmfamily\itshape (undamped trend!)}}\\
 \vspace{4mm}
 
 \begin{itemize}
 \item All four smoothing parameters ($\alpha,\beta,\gamma,\phi$) are
       command line flags.
-\item Every run finishes in well under a second.
+\item Forecasting window defined by $\texttt{-ff}$ ("forecast from") 
+      and $\texttt{-fu}$ ("forecast until")
+%\item Every Plot appears immediately.
 \end{itemize}
 \end{uhhbox}
 
@@ -155,9 +159,7 @@ Switch the ingredient, move the window, break the model:
 \vspace{-1mm}
 
 {The model forecasts the \textbf{last two observed months}
-using only the history before the window -- the weekly rhythm is
-clearly reproduced (coffee beans, $\alpha{=}0.3$, $\beta{=}0.05$,
-$\gamma{=}0.3$, $\phi{=}0.98$).\par}
+using only the history before the window.}
 \end{uhhbox}
 
 \begin{uhhbox}
