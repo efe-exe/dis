@@ -11,7 +11,7 @@ self-implemented models: SES as baseline and additive Holt-Winters
 (weekly season) as default. A CLI switches ingredients, models, and
 smoothing parameters. Evaluation is strong: a 28-day hold-out backtest
 with RMSE/MAE/MAPE across three ingredients (Table I), including the
-honest finding that SES marginally beats Holt-Winters on the flat
+interesting but questionable finding that SES marginally beats Holt-Winters on the flat
 coffee-grounds series. Method equations and a sound justification for
 the additive variant are given; the setup section is good
 (hardware, OS, DB versions, Docker Compose). Weaknesses are mostly
@@ -40,8 +40,8 @@ Rating: 3 - Weak accept
 - Recipe-to-ingredient mapping under-specified: no word on how
   espresso-shot entries or the "milk or water" choice are resolved;
   the strikingly small coffee-grounds errors (RMSE ~5 g/day) raise the
-  question whether espresso-based drinks are covered — and one headline
-  finding rests on that series.
+  question whether espresso-based drinks are covered — and one finding,
+  being presented as a main takeaway, is based on that series.
 - Bibliography partly in draft state: refs [1] and [2] lack authors,
   year, and details ([2] does not even name Winters although the text
   says "Winters [2]"); ref [4] prints ~80 authors verbatim over a full
