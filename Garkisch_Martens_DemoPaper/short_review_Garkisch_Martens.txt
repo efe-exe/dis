@@ -13,19 +13,20 @@ smoothing parameters. Evaluation is strong: a 28-day hold-out backtest
 with RMSE/MAE/MAPE across three ingredients (Table I), including the
 honest finding that SES marginally beats Holt-Winters on the flat
 coffee-grounds series. Method equations and a sound justification for
-the additive variant are given; the setup section is exemplary
+the additive variant are given; the setup section is good
 (hardware, OS, DB versions, Docker Compose). Weaknesses are mostly
 formal: a partly draft-state bibliography, an under-specified
-recipe-to-ingredient mapping, and several language slips.
+recipe-to-ingredient mapping, and several language slips and imprecisions.
 
-Rating: 4 - Accept
+Rating: 3 - Weak accept
 
 --------------------------------------------------
 (2) STRONG POINTS
 --------------------------------------------------
 - Strong, honest empirical evaluation: 28-day hold-out with RMSE, MAE,
-  MAPE across three ingredients; openly shows a case where the simpler
-  baseline wins and explains inflated MAPE on near-zero-demand series.
+  and possibly MAPE across three ingredients;
+  openly shows a case where the simpler baseline wins and explains
+  inflated MAPE on near-zero-demand series.
 - Two self-implemented models (SES + Holt-Winters) enable a live model
   comparison in the demo; additive form well justified (zero-demand
   days), equations included.
@@ -36,16 +37,16 @@ Rating: 4 - Accept
 --------------------------------------------------
 (3) WEAK POINTS
 --------------------------------------------------
-- Bibliography partly in draft state: refs [1] and [2] lack authors,
-  year, and details ([2] does not even name Winters although the text
-  says "Winters [2]"); ref [4] prints ~80 authors verbatim over a full
-  column instead of "et al.".
 - Recipe-to-ingredient mapping under-specified: no word on how
   espresso-shot entries or the "milk or water" choice are resolved;
   the strikingly small coffee-grounds errors (RMSE ~5 g/day) raise the
   question whether espresso-based drinks are covered — and one headline
   finding rests on that series.
-- Noticeable language/consistency slips (e.g. "choosen"; CLI example
-  uses "--milk" as a flag, inconsistent with the described
-  --alpha/--beta/--gamma style); the described evaluation plot is not
-  shown as a figure.
+- Bibliography partly in draft state: refs [1] and [2] lack authors,
+  year, and details ([2] does not even name Winters although the text
+  says "Winters [2]"); ref [4] prints ~80 authors verbatim over a full
+  column instead of "et al.".
+- Noticeable language slips (e.g. "choosen") and imprecisions (no units
+  in RMSE/MAE table). MAPE is announced in the text but not in Table I.
+- The described evaluation plot is not shown as a figure.
+- Likely LLM-assisted but not acknowledged.
