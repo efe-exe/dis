@@ -68,9 +68,10 @@ Efe Enes Nayci\par}
 {\fontsize{26}{34}\selectfont\color{uhhslate}
 Department of Informatics, Universit\"at Hamburg\par}
 
-\vspace{12mm}
+\vspace{-10mm}
 
 % ================= CONTENT: two columns =================
+\raisebox{37.6mm}{%
 \begin{minipage}[t]{0.54\textwidth}
 
 \begin{uhhbox}
@@ -103,11 +104,13 @@ Department of Informatics, Universit\"at Hamburg\par}
 \boxheader{Architecture}
 \vspace{2mm}
 \centering
-\includegraphics[width=0.78\linewidth]{dis_architecture.png}
+\includegraphics[width=0.93\linewidth]{dis_architecture.png}
 \end{uhhbox}
 
 %\vfill
-\end{minipage}\hfill
+\end{minipage}%
+}%
+\hspace{8mm}
 \begin{minipage}[t]{0.45\textwidth}
 
 \begin{uhhbox}
@@ -119,7 +122,7 @@ season length $m=7$ days:
 b_t    &= \beta (\ell_t - \ell_{t-1}) + (1-\beta)\,\phi b_{t-1}\\
 s_t    &= \gamma (x_t - \ell_t) + (1-\gamma)\,s_{t-m}
 \end{align*}
-\vspace{2mm}
+\vspace{-2mm}
 \begin{itemize}
 \item Damping $\phi<1$ lets the trend level off instead of
       exploding over long horizons.
@@ -132,7 +135,7 @@ s_t    &= \gamma (x_t - \ell_t) + (1-\gamma)\,s_{t-m}
 Switch the ingredient, move the window, break the model:
 \vspace{4mm}
 
-{\smallsize\ttfamily
+{\ttfamily
 \$ timeseries.py -i milk\\
 \$ timeseries.py -i "coffee beans" -a 0.3 -g 0.3\\
 \$ timeseries.py -p 1.0 \quad\rmfamily\itshape (undamped trend!)\\
@@ -149,9 +152,9 @@ Switch the ingredient, move the window, break the model:
 \begin{uhhbox}
 \boxheader{Does it work? Validation}
 \includegraphics[width=\linewidth]{forecast_evaluation_coffee_beans_2025-01-22_2025-03-23_a03_b005_g03_p098.png}
-\vspace{3mm}
+\vspace{-1mm}
 
-{\smallsize The model forecasts the \textbf{last two observed months}
+{The model forecasts the \textbf{last two observed months}
 using only the history before the window -- the weekly rhythm is
 clearly reproduced (coffee beans, $\alpha{=}0.3$, $\beta{=}0.05$,
 $\gamma{=}0.3$, $\phi{=}0.98$).\par}
@@ -160,9 +163,9 @@ $\gamma{=}0.3$, $\phi{=}0.98$).\par}
 \begin{uhhbox}
 \boxheader{Looking ahead}
 \includegraphics[width=\linewidth]{forecast_future_coffee_beans_2025-03-24_2025-05-23_a03_b005_g03_p098.png}
-\vspace{3mm}
+\vspace{-1mm}
 
-{\smallsize Two-month forecast \textbf{beyond the data}: the answer to
+{Two-month forecast \textbf{beyond the data}: the answer to
 the caf\'e's actual planning question -- how many beans to buy next
 week.\par}
 \end{uhhbox}
