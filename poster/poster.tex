@@ -25,10 +25,10 @@
 
 % ---- poster font sizes
 \newcommand{\postertitle}[1]{{\fontsize{80}{88}\selectfont\bfseries #1\par}}
-\newcommand{\postersubtitle}[1]{{\fontsize{40}{48}\selectfont\color{uhhslate}#1\par}}
-\newcommand{\boxheader}[1]{{\fontsize{42}{48}\selectfont\bfseries\color{uhhred}#1\par}\vspace{6mm}}
-\newcommand{\bodysize}{\fontsize{28}{37}\selectfont}
-\newcommand{\smallsize}{\fontsize{22}{28}\selectfont}
+\newcommand{\postersubtitle}[1]{{\fontsize{42}{48}\selectfont\color{uhhslate}#1\par}}
+\newcommand{\boxheader}[1]{{\fontsize{48}{54}\selectfont\bfseries\color{uhhred}#1\par}\vspace{6mm}}
+\newcommand{\bodysize}{\fontsize{34}{43}\selectfont}
+\newcommand{\smallsize}{\fontsize{28}{34}\selectfont}
 
 % ---- gray content box in the style of the UHH info poster
 \newtcolorbox{uhhbox}{
@@ -42,10 +42,10 @@
 \begin{document}\bodysize
 
 % ================= HEADER =================
-\begin{minipage}[c]{0.42\textwidth}
+\begin{minipage}[c]{0.49\textwidth}
   \includegraphics[width=230mm]{uhh_logo.png}
 \end{minipage}\hfill
-\begin{minipage}[c]{0.55\textwidth}
+\begin{minipage}[c]{0.49\textwidth}
   \raggedleft{\fontsize{34}{42}\selectfont\color{uhhslate}
   Databases and Information Systems (DIS)\\
   Demo Presentation \textperiodcentered{} Summer Term 2026\par}
@@ -68,10 +68,10 @@ Efe Enes Nayci\par}
 {\fontsize{26}{34}\selectfont\color{uhhslate}
 Department of Informatics, Universit\"at Hamburg\par}
 
-\vspace{24mm}
+\vspace{12mm}
 
 % ================= CONTENT: two columns =================
-\begin{minipage}[t]{0.49\textwidth}
+\begin{minipage}[t]{0.54\textwidth}
 
 \begin{uhhbox}
 \boxheader{The problem}
@@ -100,6 +100,17 @@ Department of Informatics, Universit\"at Hamburg\par}
 \end{uhhbox}
 
 \begin{uhhbox}
+\boxheader{Architecture}
+\vspace{2mm}
+\centering
+\includegraphics[width=0.78\linewidth]{dis_architecture.png}
+\end{uhhbox}
+
+%\vfill
+\end{minipage}\hfill
+\begin{minipage}[t]{0.45\textwidth}
+
+\begin{uhhbox}
 \boxheader{How: damped Holt--Winters}
 Additive triple exponential smoothing, implemented from scratch,
 season length $m=7$ days:
@@ -115,17 +126,6 @@ s_t    &= \gamma (x_t - \ell_t) + (1-\gamma)\,s_{t-m}
 \item Forecasts are clipped at zero -- negative usage is impossible.
 \end{itemize}
 \end{uhhbox}
-
-\begin{uhhbox}
-\boxheader{Architecture}
-\vspace{2mm}
-\centering
-\includegraphics[width=0.78\linewidth]{dis_architecture.png}
-\end{uhhbox}
-
-%\vfill
-\end{minipage}\hfill
-\begin{minipage}[t]{0.49\textwidth}
 
 \begin{uhhbox}
 \boxheader{Try it yourself!}
@@ -167,10 +167,10 @@ the caf\'e's actual planning question -- how many beans to buy next
 week.\par}
 \end{uhhbox}
 
-\begin{uhhbox}
-\boxheader{Conclusion}
-Not great, not terrible.
-\end{uhhbox}
+%\begin{uhhbox}
+%\boxheader{Conclusion}
+%Not great, not terrible.
+%\end{uhhbox}
 
 \end{minipage}
 
